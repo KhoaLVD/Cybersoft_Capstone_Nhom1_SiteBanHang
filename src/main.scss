@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+#test {
+    @apply bg-red-600 py-12 px-4;
+}

@@ -1,9 +1,11 @@
 {
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13"
   },
   "scripts": {
-    "start": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    "start": "npx tailwindcss -i ./src/main.scss -o ./src/main.css --watch"
   },
   "dependencies": {
     "flowbite": "^2.5.2"
