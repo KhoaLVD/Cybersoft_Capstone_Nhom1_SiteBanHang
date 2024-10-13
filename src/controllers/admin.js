@@ -1,5 +1,7 @@
+
 import Product from "./../models/product.js";
-import Api from "./../services/api.js"
+import Api from "./../services/api.js";
+
 
 const api = new Api();
 let dataStore = [];
@@ -20,7 +22,7 @@ const renderProduct = (productList) =>{
             <td class="bg-gray-50 px-2">${product.desc}</td>
             <td class="px-6">${product.type}</td>
             <td class="bg-gray-50 px-6">
-                <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Chỉnh sửa</button>        
+                <button type="button" data-modal-target="default-modal" data-modal-toggle="default-modal" onclick="updatePopup(${product.id})"  class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Chỉnh sửa</button>        
             <br />
                 <button type="button" onclick="deleteProduct(${product.id})" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Xoá</button>
             </td>
@@ -81,3 +83,56 @@ const addProduct = () =>{
     });
 }
 window.addProduct = addProduct;
+
+//update
+const updatePopup = (id) =>{
+    getEleID("modalTen").innerHTML = "Cập nhật sản phẩm";
+
+    getEleID("btnThem").style.display = "none";
+    getEleID("btnCapNhat").style.display = "block";
+
+    api.getProdductById(id).then((res)=>{
+        const product = res.data;
+        getEleID("tenSP").value = product.name;
+        getEleID("giaSP").value = product.price;
+        getEleID("manHinhSP").value = product.screen;
+        getEleID("cameraSauSP").value = product.backCamera;
+        getEleID("cameraTruocSP").value = product.frontCamera;
+        getEleID("anhSP").value = product.img;
+        getEleID("moTaSP").value = product.desc;
+        getEleID("loaiSP").value = product.type;
+    }).catch((err)=>{
+        console.log("err",err);
+    })
+}
+window.updatePopup = updatePopup;
+
+getEleID("btnCapNhat").onclick = (id) =>{
+    const name = getEleID("tenSP").value;
+    const price = getEleID("giaSP").value;
+    const screen = getEleID("manHinhSP").value;
+    const backCamera = getEleID("cameraSauSP").value;
+    const frontCamera = getEleID("cameraTruocSP").value;
+    const img = getEleID("anhSP").value;
+    const desc = getEleID("moTaSP").value;
+    const type = getEleID("loaiSP").value;
+
+    const product = new Product(id, name, price, screen, backCamera, frontCamera, img, desc, type);
+
+    api.updateProduct(product).then((res)=>{
+        fetchProductList();
+        getEleID("btnCloseModal").click();
+    }).catch((err)=>{
+        console.log("err",err);
+    })
+}
+
+//search theo ten
+
+getEleID("table-search").addEventListener("keyup", ()=>{
+    const keyword = getEleID("table-search").value;
+    const dataFilter = dataStore.filter((product)=>{
+        return product.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;    
+    })
+    renderProduct(dataFilter);
+})
