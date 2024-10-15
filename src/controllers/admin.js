@@ -1,10 +1,11 @@
 
 import Product from "./../models/product.js";
 import Api from "./../services/api.js";
-
+import validation from "./../services/validation.js";
 
 const api = new Api();
 let dataStore = [];
+let Validation = new validation();
 
 const getEleID = (id) => document.getElementById(id);
 
@@ -44,6 +45,46 @@ const fetchProductList = () =>{
 }
 fetchProductList();
 
+const getProductInfo =() =>{
+    const name = getEleID("tenSP").value;
+    const price = getEleID("giaSP").value;
+    const screen = getEleID("manHinhSP").value;
+    const backCamera = getEleID("cameraSauSP").value;
+    const frontCamera = getEleID("cameraTruocSP").value;
+    const img = getEleID("anhSP").value;
+    const desc = getEleID("moTaSP").value;
+    const type = getEleID("loaiSP").value;
+
+    let isValid = true;
+
+    isValid &= Validation.checkEmpty(name, "tbName", "Vui lòng không để trống") &&
+               Validation.checkLength(name, "tbName", "Tên có từ 6 đến 24 ký tự", 6, 24) &&
+               
+               Validation.checkEmpty(price, "tbPrice", "Vui lòng không để trống") &&
+               Validation.checkInteger(price, "tbPrice", "Giá phải là số") &&
+
+               Validation.checkEmpty(screen, "tbScreen", "Vui lòng không để trống") &&
+               
+               Validation.checkEmpty(backCamera, "tbBackCamera", "Vui lòng không để trống") &&
+               
+               Validation.checkEmpty(frontCamera, "tbFrontCamera", "Vui lòng không để trống") &&
+               
+               Validation.checkEmpty(img, "tbImg", "Vui lòng không để trống") &&
+               
+               Validation.checkEmpty(desc, "tbDesc", "Vui lòng không để trống") && 
+               Validation.checkOption("loaiSP", "tbType", "Vui lòng chọn 1 loại");
+               
+            //    Validation.checkEmpty(type, "tbType", "Vui lòng không để trống") &&
+            //    ;
+            
+    
+    if(isValid){
+        const product = new Product("", name, price, screen, backCamera, frontCamera, img, desc, type);
+        return product;
+    }           
+    return null;
+}
+
 //Xoá
 const deleteProduct = (id) =>{
     api.deleteProduct(id).then((res)=>{
@@ -63,24 +104,28 @@ getEleID("btnThemSP").onclick = () =>{
 }
 
 const addProduct = () =>{
-    const name = getEleID("tenSP").value;
-    const price = getEleID("giaSP").value;
-    const screen = getEleID("manHinhSP").value;
-    const backCamera = getEleID("cameraSauSP").value;
-    const frontCamera = getEleID("cameraTruocSP").value;
-    const img = getEleID("anhSP").value;
-    const desc = getEleID("moTaSP").value;
-    const type = getEleID("loaiSP").value;
+    // const name = getEleID("tenSP").value;
+    // const price = getEleID("giaSP").value;
+    // const screen = getEleID("manHinhSP").value;
+    // const backCamera = getEleID("cameraSauSP").value;
+    // const frontCamera = getEleID("cameraTruocSP").value;
+    // const img = getEleID("anhSP").value;
+    // const desc = getEleID("moTaSP").value;
+    // const type = getEleID("loaiSP").value;
 
-    const product = new Product("", name, price, screen, backCamera, frontCamera, img, desc, type);
+    // const product = new Product("", name, price, screen, backCamera, frontCamera, img, desc, type);
+    const product = getProductInfo();
+    if(product){
+        api.addProduct(product).then((res)=>{
+            console.log("res", res);
+            fetchProductList();
+            getEleID("btnCloseModal").click();
+        }).catch((err)=>{
+            console.log("err",err);
+        });
+    }
 
-    api.addProduct(product).then((res)=>{
-        console.log("res", res);
-        fetchProductList();
-        getEleID("btnCloseModal").click();
-    }).catch((err)=>{
-        console.log("err",err);
-    });
+    
 }
 window.addProduct = addProduct;
 
@@ -118,7 +163,8 @@ getEleID("btnCapNhat").onclick = (id) =>{
     const type = getEleID("loaiSP").value;
 
     const product = new Product(id, name, price, screen, backCamera, frontCamera, img, desc, type);
-
+    
+    
     api.updateProduct(product).then((res)=>{
         fetchProductList();
         getEleID("btnCloseModal").click();
