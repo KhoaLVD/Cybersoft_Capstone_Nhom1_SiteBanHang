@@ -200,3 +200,15 @@ getEleID("table-search").addEventListener("keyup", ()=>{
     })
     renderProduct(dataFilter);
 })
+
+//sort theo gia
+
+getEleID("lowToHigh").onclick = ()=>{
+    const dataSort = dataStore.sort((a,b) => a.price - b.price);
+    renderProduct(dataSort);
+}
+
+getEleID("HighToLow").onclick = () =>{
+    const dataSort = dataStore.sort((a,b) => b.price - a.price);
+    renderProduct(dataSort);
+}
