@@ -125,29 +125,34 @@
       </ul>
     </div>
   </aside>
-
-  <div class="find_phone sm:ml-64 md:w-1/2 my-3">
-    <div class="container">
-      <select id="phone" class="phone block w-full border border-gray-300 rounded-md text-gray-700 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm">
-        <option value="all">All</option>
-        <option value="samsung">Samsung</option>
-        <option value="iphone">iPhone</option>
-      </select>
-    </div>
-  </div>
     
+    <table class="sm:ml-64">
+      <thead>
+        <tr class="bg-gray-100">
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Hình ảnh</th>
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Tên sản phẩm</th>
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Loại</th>
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Số lượng</th>
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Giá</th>
+            <th class="px-4 py-2 text-left text-gray-700 font-semibold">Hành động</th>
+        </tr>
+    </thead>
+    <tbody id="list_cart">
 
-    <div id="list" class="list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:ml-64">
-      
-    </div>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"
-      integrity="sha512-DdX/YwF5e41Ok+AI81HI8f5/5UsoxCVT9GKYZRIzpLxb8Twz4ZwPPX+jQMwMhNQ9b5+zDEefc+dcvQoPWGNZ3g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!-- FLowbite  -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    </tbody>
+    </table>
+  </div>
+
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"
+  integrity="sha512-DdX/YwF5e41Ok+AI81HI8f5/5UsoxCVT9GKYZRIzpLxb8Twz4ZwPPX+jQMwMhNQ9b5+zDEefc+dcvQoPWGNZ3g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<!-- FLowbite  -->
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+
     <script type="module" src="./controllers/customer.js"></script>
   </body>
 </html>
